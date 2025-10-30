@@ -39,6 +39,7 @@ python3 -m verl.trainer.main_ppo \
     critic.model.fsdp_config.optimizer_offload=False \
     algorithm.use_kl_in_reward=False \
     custom_reward_function.path=verl/trainer/ppo/drivelm_rewards.py \
+    reward_model.reward_manager=drivelm \
     trainer.critic_warmup=0 \
     trainer.logger='["console","wandb"]' \
     trainer.project_name='verl_ppo_drivelm' \
