@@ -31,7 +31,7 @@ def rouge_l_score(solution_str, ground_truth):
 # CIDEr
 def cider_score(solution_str, ground_truth):
     try:
-        from cider import Cider
+        from pycocoevalcap.cider.cider import Cider
         cider = Cider()
         gts = {0: [{"caption": ground_truth}]}
         res = {0: [{"caption": solution_str}]}
@@ -46,14 +46,14 @@ def cider_score(solution_str, ground_truth):
 # SPICE
 def spice_score(solution_str, ground_truth):
     try:
-        from spice import SPICE
-        spice = SPICE()
+        import evaluate
+        spice = evaluate.load("spice")
         gts = {0: [{"caption": ground_truth}]}
         res = {0: [{"caption": solution_str}]}
-        score, _ = spice.compute_score(gts, res)
+        score = spice.compute(predictions=[res], references=[[gts]])['score']
         return float(score)
     except ImportError:
-        warnings.warn("pycocoevalcap spice not installed, SPICE will be 0.")
+        warnings.warn("evaluate not imported correctly, or spice function is not used correctly, SPICE will be 0.")
         return 0.0
     except Exception:
         return 0.0
