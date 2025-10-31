@@ -292,9 +292,15 @@ class BaseModelMerger(ABC):
     def save_hf_model_and_tokenizer(self, state_dict: dict[str, torch.Tensor]):
         auto_model_class = self.get_transformers_auto_model_class()
         with init_empty_weights():
-            model = auto_model_class.from_config(
-                self.model_config, torch_dtype=torch.bfloat16, trust_remote_code=self.config.trust_remote_code
-            )
+            # Handle different AutoModel classes that have different from_config signatures
+            if auto_model_class == AutoModelForVision2Seq:
+                # AutoModelForVision2Seq.from_config() only accepts config parameter
+                model = auto_model_class.from_config(self.model_config)
+            else:
+                # Other AutoModel classes accept **kwargs
+                model = auto_model_class.from_config(
+                    self.model_config, torch_dtype=torch.bfloat16, trust_remote_code=self.config.trust_remote_code
+                )
         model.to_empty(device="cpu")
         model = self.patch_model_generation_config(model)
 
