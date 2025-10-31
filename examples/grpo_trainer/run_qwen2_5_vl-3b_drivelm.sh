@@ -11,9 +11,9 @@ python3 -m verl.trainer.main_ppo \
     data.train_files=./data/drivelm/train.parquet \
     data.val_files=./data/drivelm/test.parquet \
     data.train_batch_size=1024 \
-    data.max_prompt_length=1024 \
+    data.max_prompt_length=2048 \
     data.max_response_length=2048 \
-    data.filter_overlong_prompts=True \
+    data.filter_overlong_prompts=False \
     data.image_key=image \
     data.truncation='error' \
     actor_rollout_ref.model.path=/home/dataset-assist-0/wangboxiong/Qwen/Qwen2.5-VL-3B-Instruct \
@@ -45,8 +45,8 @@ python3 -m verl.trainer.main_ppo \
     trainer.logger='["console","wandb"]' \
     trainer.project_name='verl_ppo_drivelm' \
     trainer.experiment_name='qwen2_5_vl_3b_function_rm_drivelm' \
-    trainer.n_gpus_per_node=1 \
+    trainer.n_gpus_per_node=8 \
     trainer.nnodes=1 \
-    trainer.save_freq=10 \
-    trainer.test_freq=1 \
+    trainer.save_freq=5 \
+    trainer.test_freq=2 \
     trainer.total_epochs=15 $@
