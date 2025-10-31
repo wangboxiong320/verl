@@ -14,6 +14,7 @@ python3 -m verl.trainer.main_ppo \
     data.max_prompt_length=1024 \
     data.max_response_length=2048 \
     data.filter_overlong_prompts=True \
+    data.image_key=image \
     data.truncation='error' \
     actor_rollout_ref.model.path=/home/dataset-assist-0/wangboxiong/Qwen/Qwen2.5-VL-3B-Instruct \
     actor_rollout_ref.model.enable_gradient_checkpointing=False \
