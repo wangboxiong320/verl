@@ -256,7 +256,7 @@ class MegatronPPOCritic(BasePPOCritic):
                 input_ids,
                 attention_mask,
                 position_ids,
-                sequence_parallel=self.tf_config.sequence_parallel,
+                {},  # multi_modal_inputs
                 value_model=True,
             )
 
@@ -298,7 +298,6 @@ class MegatronPPOCritic(BasePPOCritic):
         metrics = {}
 
         for data in dataloader:
-            # data = data.batch.to(self.critic_module.device)
             self.critic_optimizer.zero_grad()
             # use use_contiguous_buffers_in_local_ddp and no overlap_dp_param_comm
             for chunk in self.critic_module:
